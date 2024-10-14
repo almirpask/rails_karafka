@@ -1,0 +1,28 @@
+# Use an official Ruby runtime as a parent image
+FROM ruby:3.3.0
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the Gemfile to the container
+COPY Gemfile* ./
+
+# Install the Ruby dependencies
+
+RUN gem install sqlite3 -v 2.1.0 --platform=aarch64-linux
+RUN bundle install --jobs 4 --retry 3
+
+# Copy the rest of the application code to the container
+COPY . .
+
+# Set the environment variables
+ENV RAILS_ENV=development
+ENV DATABASE_URL=sqlite3:db/development.sqlite3
+
+
+
+# Expose the port for the Rails server
+EXPOSE 3000
+
+# Set the command to run the Rails server
+CMD ["rails", "server", "-b", "0.0.0.0"]
