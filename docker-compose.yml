@@ -5,13 +5,26 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+
+    volumes:
+      - .:/app
     ports:
       - "3000:3000"
-    depends_on:
-      - kafka
     environment:
       - RAILS_ENV=development
       - DATABASE_URL=sqlite3:db/development.sqlite3
+    depends_on:
+      - kafka
+  karafka: 
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=sqlite3:db/development.sqlite3
+    command: bundle exec karafka server
 
   kafka:
     image: confluentinc/cp-kafka:latest
