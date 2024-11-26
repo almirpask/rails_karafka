@@ -62,4 +62,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "karafka-web", "~> 0.10.3"
+gem "karafka-web", "~> 0.10.4"
